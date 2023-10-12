@@ -1,6 +1,8 @@
 using cookie_stand_api.Data;
+using cookie_stand_api.Model;
 using cookie_stand_api.Model.Interface;
 using cookie_stand_api.Model.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace cookie_stand_api
@@ -20,8 +22,16 @@ namespace cookie_stand_api
             builder.Services
                 .AddDbContext<CookieDbContext>
                 (opions => opions.UseSqlServer(connString));
- builder.Services.AddTransient<ICookieStand, CookieStandServiescs>();
+            builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                // There are other options like this
+            })
+.AddEntityFrameworkStores<CookieDbContext>();
 
+   
+ builder.Services.AddTransient<ICookieStand, CookieStandServiescs>();
+  builder.Services.AddTransient<IUserService, IdentityUserService>();
             builder.Services.AddTransient<IHourlySales, HourlySalesServies>();
 
             builder.Services.AddSwaggerGen(options =>

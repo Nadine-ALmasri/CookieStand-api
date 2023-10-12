@@ -10,6 +10,7 @@ using cookie_stand_api.Model;
 using cookie_stand_api.Model.Services;
 using cookie_stand_api.Model.DTO;
 using cookie_stand_api.Model.Interface;
+using Microsoft.AspNetCore.Authorization;
 
 namespace cookie_stand_api.Controllers
 {
@@ -27,6 +28,7 @@ namespace cookie_stand_api.Controllers
 
         // GET: api/CookieStands
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<CookieStand>>> GetCookieStand()
         {
         var cookiestands = await _cookieStandServiescs.GetCookieStand();
@@ -58,6 +60,7 @@ namespace cookie_stand_api.Controllers
 
         // POST: api/CookieStands
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<CookieStand>> PostCookieStand(CookieStandDTO cookieStandDTO)
         {
@@ -69,7 +72,7 @@ namespace cookie_stand_api.Controllers
 
             return Ok(cookiestand);
         }
-
+        [Authorize]
         // DELETE: api/CookieStands/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCookieStand(int id)

@@ -1,11 +1,12 @@
 ﻿using cookie_stand_api.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace cookie_stand_api.Data
 {
-    public class CookieDbContext: DbContext 
+    public class CookieDbContext: IdentityDbContext<AppUser>
     {
-
+       
         //Constructor calling the Base DbContext Class Constructor
         public CookieDbContext(DbContextOptions options) : base(options)
         {
