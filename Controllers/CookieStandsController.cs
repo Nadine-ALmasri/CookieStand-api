@@ -76,7 +76,7 @@ namespace cookie_stand_api.Controllers
 
             return Ok(cookiestand);
         }
-       [Authorize]
+      // [Authorize]
         // DELETE: api/CookieStands/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCookieStand(int id)
