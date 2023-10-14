@@ -100,5 +100,6 @@ namespace cookie_stand_api.Controllers
 
             return Ok(hourlySales);
         }
+       
     }
 }

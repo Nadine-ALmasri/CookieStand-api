@@ -10,5 +10,7 @@ namespace cookie_stand_api.Model.Interface
         Task<HourlySales> UpdateHourlySales(int hourlySalesId, HourlySalesDTO updatedHourlySalesDTO);
         Task<HourlySales> GetHourlySalesById(int hourlySalesId);
         Task DeleteHourlySales(int hourlySalesId);
+        Task<List<HourlySales>> CreateHourlySalesRandom(int CookieStandID, int MinimumCustomersPerHour,
+          int MaximumCustomersPerHour, double AverageCookiesPerSale);
     }
 }

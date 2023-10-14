@@ -33,7 +33,16 @@ namespace cookie_stand_api
  builder.Services.AddTransient<ICookieStand, CookieStandServiescs>();
   builder.Services.AddTransient<IUserService, IdentityUserService>();
             builder.Services.AddTransient<IHourlySales, HourlySalesServies>();
-
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin", builder =>
+                {
+                    builder
+                        .WithOrigins("http://localhost:3000") // Add your Next.js frontend URL
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo()
@@ -54,6 +63,7 @@ namespace cookie_stand_api
                 options.SwaggerEndpoint("/api/v1/swagger.json", "Cookie-System");
                 options.RoutePrefix = "docs";
             });
+            app.UseCors("AllowSpecificOrigin");
             app.MapControllers();
             app.MapGet("/", () => "Hello World!");
 

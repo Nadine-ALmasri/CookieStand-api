@@ -252,38 +252,6 @@ namespace cookie_stand_api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CookieStand");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AverageCookiesPerSale = 2.5,
-                            Description = "",
-                            Location = "Barcelona",
-                            MaximumCustomersPerHour = 7,
-                            MinimumCustomersPerHour = 3,
-                            Owner = ""
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AverageCookiesPerSale = 3.0,
-                            Description = "",
-                            Location = "maxico",
-                            MaximumCustomersPerHour = 8,
-                            MinimumCustomersPerHour = 2,
-                            Owner = ""
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AverageCookiesPerSale = 3.5,
-                            Description = "",
-                            Location = "Chickgio",
-                            MaximumCustomersPerHour = 7,
-                            MinimumCustomersPerHour = 3,
-                            Owner = ""
-                        });
                 });
 
             modelBuilder.Entity("cookie_stand_api.Model.HourlySales", b =>
@@ -300,37 +268,11 @@ namespace cookie_stand_api.Migrations
                     b.Property<int>("SalesAmount")
                         .HasColumnType("int");
 
-                    b.Property<int>("hour")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CookieStandId");
 
                     b.ToTable("HourlySales");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CookieStandId = 1,
-                            SalesAmount = 17,
-                            hour = 5
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CookieStandId = 2,
-                            SalesAmount = 7,
-                            hour = 4
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CookieStandId = 3,
-                            SalesAmount = 6,
-                            hour = 1
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -386,13 +328,11 @@ namespace cookie_stand_api.Migrations
 
             modelBuilder.Entity("cookie_stand_api.Model.HourlySales", b =>
                 {
-                    b.HasOne("cookie_stand_api.Model.CookieStand", "CookieStand")
+                    b.HasOne("cookie_stand_api.Model.CookieStand", null)
                         .WithMany("HourlySales")
                         .HasForeignKey("CookieStandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CookieStand");
                 });
 
             modelBuilder.Entity("cookie_stand_api.Model.CookieStand", b =>

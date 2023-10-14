@@ -3,12 +3,16 @@
 using cookie_stand_api.Model.DTO;
 using cookie_stand_api.Model.Interface;
 using cookie_stand_api.Models.DTOs;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerce.Controllers
 {
-    public class AuthController : Controller
+    [EnableCors("AllowSpecificOrigin")]
+   
+    [ApiController]
+    public class AuthController : ControllerBase 
     {
         private IUserService userService;
 

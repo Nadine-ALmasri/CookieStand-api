@@ -4,7 +4,7 @@ namespace cookie_stand_api.Model.Interface
 {
     public interface ICookieStand
     {
-        Task<CookieStand> Create(CookieStandDTO CookieStand);
+        Task<CookieStand> Create(CookiePost CookieStand);
 
         Task<List<CookieStand>> GetCookieStand();
         Task<CookieStand> GetCookieStand(int id);

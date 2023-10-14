@@ -10,7 +10,7 @@
         public double AverageCookiesPerSale { get; set; }
         public string Owner { get; set; }
 
-        // Navigation property 
+      
         public List<HourlySales>? HourlySales { get; set; }
     }
 }

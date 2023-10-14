@@ -11,24 +11,28 @@ using cookie_stand_api.Model.Services;
 using cookie_stand_api.Model.DTO;
 using cookie_stand_api.Model.Interface;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace cookie_stand_api.Controllers
 {
+    [EnableCors("AllowSpecificOrigin")]
     [Route("api/[controller]")]
     [ApiController]
     public class CookieStandsController : ControllerBase
     {
         private readonly CookieDbContext _context;
         private readonly ICookieStand _cookieStandServiescs;
-        public CookieStandsController(CookieDbContext context , ICookieStand cookieStandServiescs)
+        private readonly IHourlySales _hourlySales;
+        public CookieStandsController(CookieDbContext context , ICookieStand cookieStandServiescs, IHourlySales hourlySales)
         {
             _context = context;
             _cookieStandServiescs = cookieStandServiescs;
+            _hourlySales = hourlySales;
         }
 
         // GET: api/CookieStands
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<IEnumerable<CookieStand>>> GetCookieStand()
         {
         var cookiestands = await _cookieStandServiescs.GetCookieStand();
@@ -60,11 +64,11 @@ namespace cookie_stand_api.Controllers
 
         // POST: api/CookieStands
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize]
+        //[Authorize]
         [HttpPost]
-        public async Task<ActionResult<CookieStand>> PostCookieStand(CookieStandDTO cookieStandDTO)
+        public async Task<ActionResult<CookieStand>> PostCookieStand(CookiePost cookie)
         {
-            var cookiestand = await _cookieStandServiescs.Create(cookieStandDTO);
+            var cookiestand = await _cookieStandServiescs.Create(cookie);
             if (cookiestand == null)
             {
                 return BadRequest();
@@ -72,7 +76,7 @@ namespace cookie_stand_api.Controllers
 
             return Ok(cookiestand);
         }
-        [Authorize]
+       [Authorize]
         // DELETE: api/CookieStands/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCookieStand(int id)

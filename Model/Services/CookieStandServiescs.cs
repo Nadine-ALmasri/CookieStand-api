@@ -7,23 +7,29 @@ namespace cookie_stand_api.Model.Services
 {
     public class CookieStandServiescs : ICookieStand
     { private readonly CookieDbContext _db;
-        public CookieStandServiescs(CookieDbContext db)
+        private readonly IHourlySales _hourlySales;
+        public CookieStandServiescs(CookieDbContext db, IHourlySales hourlySales)
         {
             _db = db;
+            _hourlySales = hourlySales;
             
         }
-        public async Task<CookieStand> Create(CookieStandDTO CookieStand)
+        public async Task<CookieStand> Create(CookiePost CookieStand)
         {
             var cookie = new CookieStand()
-            {
+            { 
                 Location = CookieStand.Location,
                 AverageCookiesPerSale = CookieStand.AverageCookiesPerSale,
-                Description = CookieStand.Description,
+              
                 MaximumCustomersPerHour = CookieStand.MaximumCustomersPerHour,
                 MinimumCustomersPerHour = CookieStand.MinimumCustomersPerHour,
-                Owner = CookieStand.Owner,
-            };
-           await _db.AddAsync(cookie);
+               
+            }; 
+
+            await _db.AddAsync(cookie);
+            cookie.Description = "none";
+            cookie.Owner = "null ";
+            cookie.HourlySales = await _hourlySales.CreateHourlySalesRandom(cookie.Id, cookie.MaximumCustomersPerHour, cookie.MinimumCustomersPerHour, cookie.AverageCookiesPerSale);
             await _db.SaveChangesAsync();
             return cookie;
         }
@@ -73,5 +79,6 @@ namespace cookie_stand_api.Model.Services
             await _db.SaveChangesAsync();
             return existingCookieStand;
         }
+       
     }
 }

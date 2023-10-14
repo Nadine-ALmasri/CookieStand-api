@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace cookie_stand_api.Migrations
 {
     /// <inheritdoc />
-    public partial class addIdetity : Migration
+    public partial class build : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,24 @@ namespace cookie_stand_api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CookieStand",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MinimumCustomersPerHour = table.Column<int>(type: "int", nullable: false),
+                    MaximumCustomersPerHour = table.Column<int>(type: "int", nullable: false),
+                    AverageCookiesPerSale = table.Column<double>(type: "float", nullable: false),
+                    Owner = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CookieStand", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +174,26 @@ namespace cookie_stand_api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "HourlySales",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CookieStandId = table.Column<int>(type: "int", nullable: false),
+                    SalesAmount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HourlySales", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HourlySales_CookieStand_CookieStandId",
+                        column: x => x.CookieStandId,
+                        principalTable: "CookieStand",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,6 +232,11 @@ namespace cookie_stand_api.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HourlySales_CookieStandId",
+                table: "HourlySales",
+                column: "CookieStandId");
         }
 
         /// <inheritdoc />
@@ -215,10 +258,16 @@ namespace cookie_stand_api.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "HourlySales");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "CookieStand");
         }
     }
 }

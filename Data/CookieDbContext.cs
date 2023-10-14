@@ -18,7 +18,7 @@ namespace cookie_stand_api.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<CookieStand>().HasData(
+           /* modelBuilder.Entity<CookieStand>().HasData(
                 new CookieStand()
                 {
                     Id = 1,
@@ -70,7 +70,7 @@ namespace cookie_stand_api.Data
             CookieStandId = 3, // Link to the CookieStand with ID 1
             hour=1,
             SalesAmount = 6
-        });
+        });*/
 
         }
         //Adding Domain Classes as DbSet Properties

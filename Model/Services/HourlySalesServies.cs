@@ -32,7 +32,7 @@ namespace cookie_stand_api.Model.Services
             {
                 CookieStandId = hourlySalesDTO.CookieStandId,
                 SalesAmount = hourlySalesDTO.SalesAmount,
-             hour=hourlySalesDTO.hour 
+     
             };
 
             await _db.AddAsync(hourlySales);
@@ -60,7 +60,7 @@ namespace cookie_stand_api.Model.Services
 
             // Update the hourly sales record with the new data
             hourlySales.SalesAmount = updatedHourlySalesDTO.SalesAmount;
-            hourlySales.hour = updatedHourlySalesDTO.hour;
+           
             _db.Entry(hourlySales).State = EntityState.Modified;
            // _db.HourlySales.Update(hourlySales);
             await _db.SaveChangesAsync();
@@ -70,6 +70,34 @@ namespace cookie_stand_api.Model.Services
         public async Task<HourlySales> GetHourlySalesById(int hourlySalesId)
         {
             return await _db.HourlySales.FindAsync(hourlySalesId);
+        }
+        public async Task<List<HourlySales>> CreateHourlySalesRandom(int CookieStandID, int MaximumCustomersPerHour,
+          int MinimumCustomersPerHour, double AverageCookiesPerSale)
+        {
+            List<HourlySales> hourlySalesList = new List<HourlySales>();
+
+            Random random = new Random();
+
+            for (int i = 1; i <= 14; i++)
+
+            {
+              
+                int customers = random.Next(MinimumCustomersPerHour, MaximumCustomersPerHour + 1);
+
+                int sales = (int)(customers * AverageCookiesPerSale);
+
+                HourlySales hourlySale = new HourlySales
+                {
+                   
+                    CookieStandId = CookieStandID,
+                    SalesAmount = sales
+                };
+                await _db.HourlySales.AddAsync(hourlySale);
+
+                hourlySalesList.Add(hourlySale);
+
+            }
+            return hourlySalesList;
         }
     }
 }

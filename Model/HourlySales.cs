@@ -4,10 +4,10 @@
     {
         public int Id { get; set; }
         public int CookieStandId { get; set; } 
-        public int hour { get; set; }
+       
         public int SalesAmount { get; set; }
        
         // Navigation property 
-        public CookieStand? CookieStand { get; set; }
+        //public CookieStand? CookieStand { get; set; }
     }
 }
